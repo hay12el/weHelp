@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from . import forms
 from .models import young
+from adultposts.models import post
 
 
 def signup_view(request):
