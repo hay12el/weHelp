@@ -94,13 +94,29 @@ def young_login(request):
         form = forms.CreateYoung()
     return render(request, 'accounts/Ylogin.html', {'form': form})
 
+
 @login_required(login_url="/ accounts/login/")
 def young_hompage(request):
     posts1 = post.objects.all()
     return render(request, 'accounts/young_homepage.html', {'posts': posts1})
 
+
 @login_required(login_url="/ accounts/login/")
 def young_saved_posts(request):
+    current_user = request.user
+    me = young.objects.get(id=current_user.young.id)
+    myPosts = post.objects.filter(youngs=me)
+    return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
+
+
+@login_required(login_url="/ accounts/login/")
+def got_helped(request, pk):
+    The_post = post.objects.get(id=pk)
+    if The_post.status == False:
+        The_post.status = True
+    else:
+        The_post.status = False
+    The_post.save()
     current_user = request.user
     me = young.objects.get(id=current_user.young.id)
     myPosts = post.objects.filter(youngs=me)
