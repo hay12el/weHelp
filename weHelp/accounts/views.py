@@ -93,3 +93,9 @@ def young_login(request):
     else:
         form = forms.CreateYoung()
     return render(request, 'accounts/Ylogin.html', {'form': form})
+
+@login_required(login_url="/ accounts/login/")
+def young_hompage(request):
+    posts1 = post.objects.all()
+    return render(request, 'accounts/young_homepage.html', {'posts': posts1})
+
