@@ -1,0 +1,9 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<h2>:בחר סוג משתמש</h2>
+<div class="btn-group" role="group" aria-label="Basic example">
+    <a href="{% url 'accounts:Alogin' %}" class="btn btn-primary stretched-link">מבוגר</a>
+    <a href="{% url 'accounts:Ylogin' %}" class="btn btn-primary stretched-link">צעיר</a>
+</div>
+{% endblock %}
