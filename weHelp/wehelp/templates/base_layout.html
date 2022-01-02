@@ -25,17 +25,17 @@
                 {% if user.is_authenticated %}
                 {% if user.adult %}
                 <li class="nav-item">
-                    <a href="{% url 'adultposts:post_create' %}" class="logoutp">יצירת פוסט</a>
+                    <a href="#" class="logoutp">יצירת פוסט</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'accounts:my_posts' %}" class="logoutp">הפוסטים שלי</a>
+                    <a href="#" class="logoutp">הפוסטים שלי</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a href="{% url 'accounts:saved_posts' %}" class="logoutp">פוסטים ששמרתי</a>
+                    <a href="#" class="logoutp">פוסטים ששמרתי</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'accounts:young_homepage' %}" class="logoutp">פוסטים לעזרה</a>
+                    <a href="#" class="logoutp">פוסטים לעזרה</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">

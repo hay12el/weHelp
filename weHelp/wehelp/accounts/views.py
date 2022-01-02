@@ -7,7 +7,6 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from . import forms
 from .models import young
-from adultposts.models import post
 
 
 def signup_view(request):
@@ -94,21 +93,6 @@ def young_login(request):
     else:
         form = forms.CreateYoung()
     return render(request, 'accounts/Ylogin.html', {'form': form})
-
-
-@login_required(login_url="/ accounts/login/")
-def young_hompage(request):
-    posts1 = post.objects.all()
-    return render(request, 'accounts/young_homepage.html', {'posts': posts1})
-
-
-@login_required(login_url="/ accounts/login/")
-def young_saved_posts(request):
-    current_user = request.user
-    me = young.objects.get(id=current_user.young.id)
-    myPosts = post.objects.filter(youngs=me)
-    return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
-
 
 @login_required(login_url="/ accounts/login/")
 def got_helped(request, pk):

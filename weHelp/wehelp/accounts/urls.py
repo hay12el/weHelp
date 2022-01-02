@@ -12,7 +12,5 @@ urlpatterns = [
     url(r'^checking/$', views.check, name='check_page'),
     url(r'^adult_login/$', views.adult_login, name='Alogin'),
     url(r'^young_login/$', views.young_login, name='Ylogin'),
-    url(r'^helper/$', views.young_hompage, name='young_homepage'),
-    url(r'^saved_posts/$', views.young_saved_posts, name='saved_posts'),
     path('success/<str:pk>/', views.got_helped, name='got_helped'),
 ]
