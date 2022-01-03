@@ -5,6 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class adult(models.Model):
     Auser = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=40)
     phone = models.CharField(blank=True, max_length=12)
     age = models.IntegerField()
