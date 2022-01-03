@@ -4,6 +4,16 @@
 {% block content %}
 <!---->
 <style>
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background-image: url(../../../static/img/bg-image.jpg);
+        background-size: cover;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
     .wave {
         position: fixed;
         bottom: 0;
@@ -12,14 +22,14 @@
         z-index: -1;
     }
 
-    .container {
+    /* .container {
         width: 100vw;
         height: 100vh;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 7rem;
         padding: 0 2rem;
-    }
+    } */
 
     .img {
         display: flex;
@@ -29,11 +39,10 @@
 
     .login-content {
         display: flex;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: center;
         text-align: center;
-    }
 
+    }
     .img img {
         width: 500px;
     }
@@ -44,7 +53,11 @@
 
     .login-content img {
         height: 100px;
-    }
+        /* display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%; */
+        }
 
     .login-content h2 {
         margin: 15px 0;
@@ -197,31 +210,30 @@
             display: none;
         }
 
-        .wave {
+        /* .wave {
             display: none;
-        }
+        } */
 
         .login-content {
             justify-content: center;
         }
     }
 </style>
-<img class="wave" src="{% static 'img/wave.png' %}">
+<!-- <img class="wave" src="{% static 'img/wave.png' %}">
 <div class="container">
     <div class="img">
         <img src="{% static 'img\bg.svg' %}">
-    </div>
+    </div> -->
     <div class="login-content">
         <form action="{% url 'accounts:login' %}" method='POST'>
             {% csrf_token %}
             <img src="{% static 'img/avatar.svg' %}">
-            <h2 class="title">Log-In</h2>
+            <h2 class="title">התחבר</h2>
             <div class="input-div one">
                 <div class="i">
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="div">
-                    <h5>:שם משתמש</h5>
                     {{ form.username }}
                 </div>
             </div>
@@ -230,7 +242,6 @@
                     <i class="fas fa-lock"></i>
                 </div>
                 <div class="div">
-                    <h5>:סיסמא</h5>
                     {{ form.password }}
                 </div>
             </div>

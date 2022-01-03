@@ -1,0 +1,44 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h2>יוזרים מבוגרים</h2>
+</div>
+<div class="row">
+    {% for adult in adults %}
+    <div class="col-sm-6">
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;">{{ adult.name }}</h5>
+                <p class="card-text" style="text-align: center;">גיל {{adult.age}} גר/ה ב{{adult.city}}</p>
+                <div style="text-align: center;">
+                    <a href="https://wa.me/"
+                        onclick="location.href=this.href+remove_plus('{{adult.phone}}'); return false;"
+                        class="btn btn-primary"><i class="fab fa-whatsapp"></i>
+                        שלח הודעה</a>
+                    <a href="tel:" onclick="location.href=this.href+change_phone('{{adult.phone}}');return false;"
+                        class="btn btn-primary"><i class="fas fa-phone-alt"></i>
+                        התקשר</a>
+                    <a href="{% url 'accounts:delete_adult' adult.id %}" class="btn btn-danger">מחק יוזר</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    function change_phone(x) {
+        clean = x.slice(-9);
+        newnum = ''.concat('0', clean);
+        console.log(newnum);
+        return newnum;
+    }
+
+    function remove_plus(x) {
+        console.log(x);
+        k = x.slice(-12);
+        console.log(k);
+        return k;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+
+{% block content %}
+<style>
+    .select {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 60%;
+        padding-left: 12px;
+        gap: 1px;
+    }
+
+    .select__item {
+        padding: 10px;
+        width: 150px;
+        height: 70px;
+        margin: 7px;
+        cursor: pointer;
+        font-family: "Heebo", sans-serif;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 3px;
+        background: #eeeeee;
+        transition: background 0.1s;
+    }
+
+    .select__item--selected {
+        background: #415efd;
+        color: #ffffff;
+    }
+
+    ::-webkit-input-placeholder {
+        text-align: right;
+    }
+
+    :-moz-placeholder {
+        /* Firefox 18- */
+        text-align: right;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        text-align: right;
+    }
+
+    :-ms-input-placeholder {
+        text-align: right;
+    }
+</style>
+<h2 style="text-align: center;">!כאן תוכל לפתוח בקשה לעזרה</h2>
+
+<div style="text-align: center;">
+
+
+    <form action="{% url 'adultposts:post_create' %}" method="post" style="display: inline-block;">
+        {% csrf_token %}
+        <div
+            style="background-color: rgb(243, 243, 243); border-radius: 10px; padding: 10px; box-shadow: 10px 10px 5px #aaaaaa;">
+            <div style="display: flex;">
+                {{form.title}}
+                <h4 style="margin-left: 20px;">:כותרת</h4>
+            </div>
+            <div style="display: flex; margin-top: 20px;">
+                {{form.text}}
+                <h4 style="margin-left: 20px;">טקסט<br>:חופשי</h4>
+            </div>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <h4>:בחר סוג עזרה</h4>
+                <div style="border-radius: 5px; border-color: cadetblue; background-color: rgb(197, 197, 197);">
+                    <select name="select" class="custom-select">
+                        <option value="עזרה בבית">עזרה בבית</option>
+                        <option value="עזרה בקניות">עזרה בקניות</option>
+                        <option value="אוזן קשבת">אוזן קשבת</option>
+                        <option value="קניית תרופות">קניית תרופות</option>
+                    </select>
+                </div>
+            </div>
+
+            <input type="submit" class="btn btn-primary btn-lg" value="פרסם"
+                style="margin-left: auto; margin-right: auto;width: 8em; margin-bottom: 10px;">
+        </div>
+    </form>
+</div>
+<script>
+    class CustomSelect {
+        constructor(originalSelect) {
+            this.originalSelect = originalSelect;
+            this.customSelect = document.createElement("div");
+            this.customSelect.classList.add("select");
+
+            this.originalSelect.querySelectorAll("option").forEach((optionElement) => {
+                const itemElement = document.createElement("div");
+
+                itemElement.classList.add("select__item");
+                itemElement.textContent = optionElement.textContent;
+                this.customSelect.appendChild(itemElement);
+
+                if (optionElement.selected) {
+                    this._select(itemElement);
+                }
+
+                itemElement.addEventListener("click", () => {
+                    if (
+                        this.originalSelect.multiple &&
+                        itemElement.classList.contains("select__item--selected")
+                    ) {
+                        this._deselect(itemElement);
+                    } else {
+                        this._select(itemElement);
+                    }
+                });
+            });
+
+            this.originalSelect.insertAdjacentElement("afterend", this.customSelect);
+            this.originalSelect.style.display = "none";
+        }
+
+        _select(itemElement) {
+            const index = Array.from(this.customSelect.children).indexOf(itemElement);
+
+            if (!this.originalSelect.multiple) {
+                this.customSelect.querySelectorAll(".select__item").forEach((el) => {
+                    el.classList.remove("select__item--selected");
+                });
+            }
+
+            this.originalSelect.querySelectorAll("option")[index].selected = true;
+            itemElement.classList.add("select__item--selected");
+        }
+
+        _deselect(itemElement) {
+            const index = Array.from(this.customSelect.children).indexOf(itemElement);
+
+            this.originalSelect.querySelectorAll("option")[index].selected = false;
+            itemElement.classList.remove("select__item--selected");
+        }
+    }
+
+    document.querySelectorAll(".custom-select").forEach((selectElement) => {
+        new CustomSelect(selectElement);
+    });
+</script>
+{% endblock %}

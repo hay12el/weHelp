@@ -1,13 +1,35 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-
-<form action="{% url 'accounts:Alogin' %}" method='POST'>
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="הרשם">
-</form>
-
-<!---->
-
+<div class="form-container">
+    <form action="{% url 'accounts:Alogin' %}" method='POST'>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="הרשם">
+    </form>
+</div>
+<style>
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background-image: url(../../../static/img/bg-image.jpg);
+        background-size: cover;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        margin: 0 auto;
+    }
+    .form-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 85vh;
+    }
+</style>
 {% endblock %}

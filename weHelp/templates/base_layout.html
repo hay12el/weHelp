@@ -8,16 +8,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pushster&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v1">
     <script src="https://kit.fontawesome.com/17e9c31292.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>WeHelp</title>
+    <style>
+        *,
+        *::after,
+        *::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            background-image: url(../static/img/bg-image.jpg);
+            background-size: cover;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, .5);
+            z-index: -1;
+        }
+
+        .nav-branding {
+            font-family: 'Pushster', cursive;
+            font-size: 50px;
+            color: inherit;
+            text-decoration: none;
+            transition: color 200ms ease-in-out;
+        }
+
+        .nav-branding:hover {
+            color: #32be8f;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .content {
+            font-size: 20px;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="overlay"></div>
     <header>
         <nav class="navbar">
             <a href="{% url 'home' %}" class="nav-branding">WeHelp</a>
@@ -25,17 +80,33 @@
                 {% if user.is_authenticated %}
                 {% if user.adult %}
                 <li class="nav-item">
-                    <a href="#" class="logoutp">יצירת פוסט</a>
+                    <a href="https://wa.me/+972533404508" class="logoutp">לעזרה לחץ כאן</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="logoutp">הפוסטים שלי</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a href="#" class="logoutp">פוסטים ששמרתי</a>
+                    <a href="{% url 'adultposts:post_create' %}" class="logoutp">יצירת פוסט</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="logoutp">פוסטים לעזרה</a>
+                    <a href="{% url 'accounts:my_posts' %}" class="logoutp">הפוסטים שלי</a>
+                </li>
+                {% elif user.is_superuser %}
+                <li class="nav-item">
+                    <a href="{% url 'accounts:admin_adult' %}" class="logoutp">מבוגרים</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:admin_young' %}" class="logoutp">צעירים</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:admin_post' %}" class="logoutp">פוסטים</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:admin_homepage' %}" class="logoutp">דוחות</a>
+                </li>
+                {% elif user.young %}
+                <li class="nav-item">
+                    <a href="{% url 'accounts:saved_posts' %}" class="logoutp">פוסטים ששמרתי</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:young_homepage' %}" class="logoutp">פוסטים לעזרה</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -60,6 +131,18 @@
             </div>
         </nav>
     </header>
+    <!-- <div class="container">
+        <h1>
+            אתר חברתי שמטרתו לקשר בין אנשים מבוגרים המתקשים לבצע פעולות יום יומיות, לבין אנשים המוכנים לעזור על מנת להפוך את חייהם לפשוטים ונגישים יותר במהלך תקופת הקורונה.
+        </h1>
+        <div class="content">
+                    האתר WeHelp  הוקם במטרה לקשר בין אנשים מבוגרים הזקוקים לעזרה בפעולות היום יום לבין אנשים המעוניינים לעזור להם. 
+        במהלך תקופת משבר הקורונה, מבוגרים רבים פחדו לצאת החוצה מחשש להדבק בנגיף, דבר שהוביל לריחוק חברתי שיצר בדידות, מחסור במצרכים בסיסיים בבית ואי יכולת לצאת לחדש מאגרים ותיחזוק שוטף שלא נעשה מהחשש להכניס זרים הביתה.
+        בין מגבלות הסגר, אוכלוסיה מבוגרת הוגדרה כאוכלוסיה בסיכון והוגבלה תנועה במרחב הציבורי. 
+        האתר שלנו בא לתת מענה לבעיות המתוארות לעיל בכך שיחבר אנשים הרתומים לעזור ולסייע לאוכלוסיה המבוגרת, לבין המבוגרים כך שיוכלו שיעזרו למבוגרים בכל מטלות היום יום ובהפגת הבדידות שנכפתה עליהם.
+        נבנה אתר שאליו יוכלו להיכנס מבוגרים, וצעירים המעוניינים לתרום. האתר יהיה מבוסס בלוג, יווצרו יוזרים שיוכלו להתקשר בניהם. יוזר הנבנה בתור מבוגר, תהיה באפשרותו לבקש עזרה בכל מיני תחומים, ויוזר הנותן עזרה ("צעיר") יוכל לתת מענה עבור פניות של מבוגרים.
+        </div>
+    </div> -->
     {% block content %}
     {% endblock %}
     {% if not user.is_superuser %}

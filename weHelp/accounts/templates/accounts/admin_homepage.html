@@ -1,0 +1,50 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h1>דוחות לאדמין</h1>
+</div>
+<div class="container" style="display: flex;">
+    <div
+        style="width: 18rem;margin: 10px; border-style: solid; border-radius: 10px; border-width: 2px; border-color:rgb(212, 212, 212);">
+        <img src="{% static 'img/old_man.png' %}" class="card-img-top" alt="...">
+        <div style="text-align: center;">
+            <p class="card-text">מספר המבוגרים באתר:</p>
+            <h4> {{ adults }}</h4>
+        </div>
+    </div>
+    <div
+        style="width: 18rem;margin: 10px; border-style: solid; border-radius: 10px; border-width: 2px; border-color:rgb(212, 212, 212);">
+        <img src="{% static 'img/group-happy-young-people-hand-up-13817553.jpg' %}" class="card-img-top" alt="...">
+        <div class="card-body" style="text-align: center;">
+            <p class="card-text">מספר הצעירים באתר:</p>
+            <h4> {{ youngs }}</h4>
+        </div>
+    </div>
+    <div
+        style="width: 18rem;margin: 10px; border-style: solid; border-radius: 10px; border-width: 2px; border-color:rgb(212, 212, 212);">
+        <img src="{% static 'img/posts.png' %}" class="card-img-top" alt="...">
+        <div class="card-body" style="text-align: center;">
+            <p class="card-text">מספר הפוסטים באתר:</p>
+            <h4> {{ posts }}</h4>
+        </div>
+    </div>
+    <div
+        style="width: 18rem;margin: 10px; border-style: solid; border-radius: 10px; border-width: 2px; border-color:rgb(212, 212, 212);">
+        <img src="{% static 'img/v.jfif' %}" class="card-img-top" alt="...">
+        <div class="card-body" style="text-align: center;">
+            <p class="card-text">מספר הפוסטים שטופלו:</p>
+            <h4> {{ got_help }}</h4>
+        </div>
+    </div>
+    <div
+        style="width: 18rem;margin: 10px; border-style: solid; border-radius: 10px; border-width: 2px; border-color:rgb(212, 212, 212);">
+        <img src="{% static 'img/x.png' %}" class="card-img-top" alt="...">
+        <div class="card-body" style="text-align: center;">
+            <p class="card-text">מספר הפוסטים שעוד לא טופלו:</p>
+            <h4> {{ yet }}</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}

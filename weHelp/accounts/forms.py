@@ -12,7 +12,7 @@ class CreateUserForm(UserCreationForm):
         fields = ['username', 'password1', 'password2']
 
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'input', 'style:': 'text-align: right;'}),
+            'username': forms.TextInput(attrs={'class': 'input', 'style:': 'text-align: right;', 'placeholder': 'מחמ'}),
             'password1': forms.TextInput(attrs={'class': 'input', 'style:': 'text-align: right;'}),
             'password2': forms.TextInput(attrs={'class': 'input', 'style:': 'text-align: right;'})
         }
