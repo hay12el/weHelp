@@ -2,7 +2,7 @@
 
 {% block content %}
 <div style="text-align: center; ">
-    <h2>:פוסטים ששמרת</h2>
+    <h2>:פוסטים באתר</h2>
 </div>
 <div>
     {% for post in posts %}
@@ -12,12 +12,13 @@
             <div class="row align-items-start">
                 <div class="col">
                     {% if post.status == False %}
-                    <a href="{% url 'accounts:got_helped' post.id %}" class="btn btn-primary btn-sm">'סמן כ'טופל</a>
+                    <a href="{% url 'accounts:admin_got_helped' post.id %}" class="btn btn-primary">'סמן כ'טופל</a>
                     {% else %}
-                    <a href="{% url 'accounts:got_helped' post.id %}" class="btn btn-primary btn-sm">'בטל סימון
+                    <a href="{% url 'accounts:admin_got_helped' post.id %}" class="btn btn-primary">'בטל סימון
                         כ'טופל</a>
                     {% endif %}
-                    <a href="https://wa.me/+972533404508" class="btn btn-danger" style="height: 32px;">דווח על פוסט</a>
+                    <a href="{% url 'accounts:delete_post' post.id %}" class="btn btn-danger">מחק פוסט</a>
+
                 </div>
                 <div class="col">
                     <h4>{{post.author.name}}</h4>

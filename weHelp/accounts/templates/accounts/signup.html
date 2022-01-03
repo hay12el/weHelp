@@ -3,22 +3,31 @@
 
 {% block content %}
 <style>
-    .wave {
+    /* .wave {
         position: fixed;
         bottom: 0;
         left: 0;
         height: 100%;
         z-index: -1;
+    } */
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background-image: url(../../../static/img/bg-image.jpg);
+        background-size: cover;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        overflow: hidden;
     }
-
-    .container {
+    /* .container {
         width: 100vw;
         height: 100vh;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 7rem;
         padding: 0 2rem;
-    }
+    } */
 
     .img {
         display: flex;
@@ -28,8 +37,7 @@
 
     .login-content {
         display: flex;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: center;
         text-align: center;
     }
 
@@ -205,22 +213,21 @@
         }
     }
 </style>
-<img class="wave" src="{% static 'img/wave.png' %}">
-<div class="container">
+<!-- <img class="wave" src="{% static 'img/wave.png' %}"> -->
+<!-- <div class="container">
     <div class="img">
         <img src="{% static 'img\bg.svg' %}">
-    </div>
+    </div> -->
     <div class="login-content">
         <form action="/accounts/signup/" method='POST'>
             {% csrf_token %}
             <img src="{% static 'img/avatar.svg' %}">
-            <h2 class="title">Welcome</h2>
+            <h2 class="title">ברוכים הבאים</h2>
             <div class="input-div one">
                 <div class="i">
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="div">
-                    <h5>:שם משתמש</h5>
                     {{ form.username }}
                 </div>
             </div>
@@ -229,7 +236,6 @@
                     <i class="fas fa-lock"></i>
                 </div>
                 <div class="div">
-                    <h5>:סיסמא</h5>
                     {{ form.password1 }}
                 </div>
             </div>
@@ -238,7 +244,6 @@
                     <i class="fas fa-lock"></i>
                 </div>
                 <div class="div">
-                    <h5>:סיסמא פעם שניה</h5>
                     {{ form.password2 }}
                 </div>
             </div>

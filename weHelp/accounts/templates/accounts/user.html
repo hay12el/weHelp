@@ -10,7 +10,22 @@
     <div class="card text-center"
         style="margin-left: 10%;margin-right: 10%;margin-top: 15px;margin-bottom: 15px; border-radius: 10px; width: 80%; border: 1px solid rgb(30, 172, 253);">
         <div class="card-header">
-            {{post.author.name}}
+            <div class="row align-items-start">
+
+                <div class="col">
+                    <a href="{% url 'accounts:delete_post' post.id %}" class="btn btn-danger">מחק פוסט</a>
+                </div>
+                <div class="col">
+                    {{post.author.name}}
+                </div>
+                <div class="col">
+                    {% if post.status == False %}
+                    <p style="margin-bottom: 0;">זקוק לטיפול <i class="far fa-circle" style="color: red;"></i></p>
+                    {% else %}
+                    <p style="margin-bottom: 0;">טופל <i class="fas fa-circle" style="color: greenyellow;"></i></p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <p class="card-text">{{post.title}}</p>
