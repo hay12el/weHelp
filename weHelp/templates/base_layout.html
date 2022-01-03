@@ -62,6 +62,13 @@
     </header>
     {% block content %}
     {% endblock %}
+    {% if not user.is_superuser %}
+    <div
+        style="background-color: black; opacity: 60%; height: 35px; position: fixed;bottom: 0; width: 100vw; text-align: center;  display: grid; grid-template-columns: auto auto; justify-content: center;">
+        <a href="https://wa.me/+972533404508"> לחצו כאן </a>
+        <p style="color: blanchedalmond;"> ליצירת קשר עם המנהלים </p>
+    </div>
+    {% endif %}
 </body>
 
 </html>
