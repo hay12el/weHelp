@@ -122,3 +122,8 @@ def got_helped(request, pk):
     me = young.objects.get(id=current_user.young.id)
     myPosts = post.objects.filter(youngs=me)
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
+
+@login_required(login_url="/ accounts/login/")
+def admin_posts(request):
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
