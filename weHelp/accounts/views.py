@@ -122,3 +122,10 @@ def got_helped(request, pk):
     me = young.objects.get(id=current_user.young.id)
     myPosts = post.objects.filter(youngs=me)
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
+
+@login_required(login_url="/ accounts/login/")
+def delete_post(request, pk):
+    obj = post.objects.get(id=pk)
+    obj.delete()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
