@@ -127,3 +127,8 @@ def got_helped(request, pk):
 def admin_adult(request):
     adults = adult.objects.all()
     return render(request, 'accounts/admin_adults.html', {'adults': adults})
+
+@login_required(login_url="/ accounts/login/")
+def admin_young(request):
+    youngs = young.objects.all()
+    return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
