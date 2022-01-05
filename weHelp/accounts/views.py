@@ -124,6 +124,21 @@ def got_helped(request, pk):
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
 
 @login_required(login_url="/ accounts/login/")
+def admin_posts(request):
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+
+@login_required(login_url="/ accounts/login/")
+def admin_got_helped(request, pk):
+    The_post = post.objects.get(id=pk)
+    if The_post.status == False:
+        The_post.status = True
+    else:
+        The_post.status = False
+    The_post.save()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+  
 def delete_young(request, pk):
     obj = young.objects.get(id=pk)
     obj.delete()
