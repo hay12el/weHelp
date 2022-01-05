@@ -9,7 +9,6 @@ from . import forms
 from .models import young,adult
 from adultposts.models import post
 
-
 def signup_view(request):
     if request.method == 'POST':
         form = forms.CreateUserForm(request.POST)
@@ -124,6 +123,31 @@ def got_helped(request, pk):
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
 
 @login_required(login_url="/ accounts/login/")
+def delete_post(request, pk):
+    obj = post.objects.get(id=pk)
+    obj.delete()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_homepage(request):
+    posts = post.objects.all()
+    adults = adult.objects.all()
+    youngs = young.objects.all()
+    num_of_posts = posts.count()
+    num_of_youngs = youngs.count()
+    num_of_adults = adults.count()
+    got_help = post.objects.filter(status=True)
+    yet = num_of_posts - got_help.count()
+    print(num_of_posts, num_of_adults, num_of_youngs, yet)
+    context = {'posts': num_of_posts,
+               'youngs': num_of_youngs,
+               'adults': num_of_adults,
+               'got_help': got_help.count(),
+               'yet': yet}
+    return render(request, 'accounts/admin_homepage.html', context)
+
 def admin_adult(request):
     adults = adult.objects.all()
     return render(request, 'accounts/admin_adults.html', {'adults': adults})
