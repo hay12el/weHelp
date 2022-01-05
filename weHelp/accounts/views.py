@@ -9,7 +9,6 @@ from . import forms
 from .models import adult, young
 from adultposts.models import post
 
-
 def signup_view(request):
     if request.method == 'POST':
         form = forms.CreateUserForm(request.POST)
@@ -40,7 +39,6 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
 
-
 def logout_view(request):
     if request.method == 'POST':
         logout(request)
@@ -53,11 +51,9 @@ def adult_page(request):
     context = {'posts': posts}
     return render(request, 'accounts/user.html', context)
 
-
 @login_required(login_url="/ accounts/login/")
 def check(request):
     return render(request, 'accounts/ask_for_kind.html')
-
 
 def get_num_Cell(num):
     new_number = 0
@@ -66,7 +62,6 @@ def get_num_Cell(num):
             new_number = new_number*10+int(num[i])
     new = "+972" + str(new_number)
     return new
-
 
 def adult_login(request):
     form = forms.CreateAdult(request.POST or None)
@@ -107,9 +102,6 @@ def young_hompage(request):
         posts1 = post.objects.filter(city__contains=val)
         return render(request, 'accounts/young_homepage.html', {'posts': posts1})
 
-    return render(request, 'accounts/young_homepage.html', {'posts': posts1})
-
-
 @login_required(login_url="/ accounts/login/")
 def young_saved_posts(request):
     current_user = request.user
@@ -131,6 +123,12 @@ def got_helped(request, pk):
     myPosts = post.objects.filter(youngs=me)
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
 
+@login_required(login_url="/ accounts/login/")
+def delete_post(request, pk):
+    obj = post.objects.get(id=pk)
+    obj.delete()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
 
 @login_required(login_url="/ accounts/login/")
 def admin_homepage(request):
@@ -150,32 +148,37 @@ def admin_homepage(request):
                'yet': yet}
     return render(request, 'accounts/admin_homepage.html', context)
 
-
 @login_required(login_url="/ accounts/login/")
 def admin_adult(request):
     adults = adult.objects.all()
     return render(request, 'accounts/admin_adults.html', {'adults': adults})
-
 
 @login_required(login_url="/ accounts/login/")
 def admin_young(request):
     youngs = young.objects.all()
     return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
 
-
 @login_required(login_url="/ accounts/login/")
 def admin_posts(request):
     posts = post.objects.all()
     return render(request, 'accounts/admin_posts.html', {'posts': posts})
 
-
 @login_required(login_url="/ accounts/login/")
+def admin_got_helped(request, pk):
+    The_post = post.objects.get(id=pk)
+    if The_post.status == False:
+        The_post.status = True
+    else:
+        The_post.status = False
+    The_post.save()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+
 def delete_young(request, pk):
     obj = young.objects.get(id=pk)
     obj.delete()
     youngs = young.objects.all()
     return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
-
 
 @login_required(login_url="/ accounts/login/")
 def delete_adult(request, pk):
@@ -191,7 +194,6 @@ def delete_post(request, pk):
     obj.delete()
     posts = post.objects.all()
     return render(request, 'accounts/admin_posts.html', {'posts': posts})
-
 
 @login_required(login_url="/ accounts/login/")
 def admin_got_helped(request, pk):
