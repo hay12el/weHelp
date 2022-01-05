@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from . import forms
-from .models import young
+from .models import adult, young
 from adultposts.models import post
 
 
@@ -31,6 +31,8 @@ def login_view(request):
             # login the user
             user = form.get_user()
             login(request, user)
+            if request.user.is_superuser:
+                return admin_homepage(request)
             # undertand where to direct the user depend on useer's kind
             return redirect('home')
             # return render(request, 'accounts/user.html')
@@ -86,8 +88,6 @@ def young_login(request):
     if request.method == 'POST':
         if form.is_valid():
             instance = form.save(commit=False)
-            tele = request.POST.get('phone')
-            instance.phone = get_num_Cell(tele)
             instance.Yuser = request.user
             form.save()
             return redirect('home')
@@ -99,6 +99,14 @@ def young_login(request):
 @login_required(login_url="/ accounts/login/")
 def young_hompage(request):
     posts1 = post.objects.all()
+
+    if request.method == 'GET':
+        val = request.GET.get("city")
+        if not val:
+            return render(request, 'accounts/young_homepage.html', {'posts': posts1})
+        posts1 = post.objects.filter(city__contains=val)
+        return render(request, 'accounts/young_homepage.html', {'posts': posts1})
+
     return render(request, 'accounts/young_homepage.html', {'posts': posts1})
 
 
@@ -122,3 +130,76 @@ def got_helped(request, pk):
     me = young.objects.get(id=current_user.young.id)
     myPosts = post.objects.filter(youngs=me)
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_homepage(request):
+    posts = post.objects.all()
+    adults = adult.objects.all()
+    youngs = young.objects.all()
+    num_of_posts = posts.count()
+    num_of_youngs = youngs.count()
+    num_of_adults = adults.count()
+    got_help = post.objects.filter(status=True)
+    yet = num_of_posts - got_help.count()
+    print(num_of_posts, num_of_adults, num_of_youngs, yet)
+    context = {'posts': num_of_posts,
+               'youngs': num_of_youngs,
+               'adults': num_of_adults,
+               'got_help': got_help.count(),
+               'yet': yet}
+    return render(request, 'accounts/admin_homepage.html', context)
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_adult(request):
+    adults = adult.objects.all()
+    return render(request, 'accounts/admin_adults.html', {'adults': adults})
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_young(request):
+    youngs = young.objects.all()
+    return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_posts(request):
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+
+
+@login_required(login_url="/ accounts/login/")
+def delete_young(request, pk):
+    obj = young.objects.get(id=pk)
+    obj.delete()
+    youngs = young.objects.all()
+    return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
+
+
+@login_required(login_url="/ accounts/login/")
+def delete_adult(request, pk):
+    obj = adult.objects.get(id=pk)
+    obj.delete()
+    adults = adult.objects.all()
+    return render(request, 'accounts/admin_adults.html', {'adults': adults})
+
+
+@login_required(login_url="/ accounts/login/")
+def delete_post(request, pk):
+    obj = post.objects.get(id=pk)
+    obj.delete()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
+
+
+@login_required(login_url="/ accounts/login/")
+def admin_got_helped(request, pk):
+    The_post = post.objects.get(id=pk)
+    if The_post.status == False:
+        The_post.status = True
+    else:
+        The_post.status = False
+    The_post.save()
+    posts = post.objects.all()
+    return render(request, 'accounts/admin_posts.html', {'posts': posts})
