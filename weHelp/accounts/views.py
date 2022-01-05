@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from . import forms
-from .models import young, adult
+from .models import young,adult
 from adultposts.models import post
 
 
@@ -124,6 +124,14 @@ def got_helped(request, pk):
     return render(request, 'accounts/saved_posts.html', {'posts': myPosts})
 
 @login_required(login_url="/ accounts/login/")
+def admin_adult(request):
+    adults = adult.objects.all()
+    return render(request, 'accounts/admin_adults.html', {'adults': adults})
+
+@login_required(login_url="/ accounts/login/")
+def admin_young(request):
+    youngs = young.objects.all()
+    return render(request, 'accounts/admin_youngs.html', {'youngs': youngs})
 def admin_posts(request):
     posts = post.objects.all()
     return render(request, 'accounts/admin_posts.html', {'posts': posts})
